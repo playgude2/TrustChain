@@ -115,4 +115,16 @@ export class OrganizationsController {
   ): Promise<{ accessToken: string; organization: any }> {
     return this.organizationsService.login(loginOrganizationDto);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
+  @Post(':id/create-wallet')
+  @ApiOperation({ summary: 'Create a wallet for an organization' })
+  @ApiResponse({
+    status: 200,
+    description: 'Wallet successfully created for organization.',
+  })
+  async createWallet(@Param('id') organizationId: number) {
+    return this.organizationsService.createWallet(organizationId);
+  }
 }
