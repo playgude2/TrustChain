@@ -1,21 +1,32 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcryptjs';
 import { Organizations } from './entities/organizations.entity';
 import { CreateOrganizationDto } from './dtos/create-organization.dto';
 import { UpdateOrganizationDto } from './dtos/update-organization.dto';
+import { LoginOrganizationDto } from './dtos/login-organization.dto';
 
 @Injectable()
 export class OrganizationsService {
   constructor(
     @InjectRepository(Organizations)
     private organizationsRepository: Repository<Organizations>,
+    private jwtService: JwtService,
   ) {}
 
-  create(createOrganizationDto: CreateOrganizationDto): Promise<Organizations> {
+  async create(
+    createOrganizationDto: CreateOrganizationDto,
+  ): Promise<Organizations> {
     const organization = this.organizationsRepository.create(
       createOrganizationDto,
     );
+    organization.password = await bcrypt.hash(organization.password, 10);
     return this.organizationsRepository.save(organization);
   }
 
@@ -52,5 +63,25 @@ export class OrganizationsService {
     if (result.affected === 0) {
       throw new NotFoundException('Organization not found');
     }
+  }
+
+  async login(
+    loginOrganizationDto: LoginOrganizationDto,
+  ): Promise<{ accessToken: string; organization: any }> {
+    const { email, password } = loginOrganizationDto;
+    const organization = await this.organizationsRepository.findOne({
+      where: { email },
+    });
+    console.log('organization:::', organization);
+    if (
+      !organization ||
+      !(await bcrypt.compare(password, organization.password))
+    ) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    const payload = { sub: organization.id, email: organization.email };
+    const accessToken = this.jwtService.sign(payload);
+    return { accessToken, organization };
   }
 }
