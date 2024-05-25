@@ -61,4 +61,11 @@ export class Organizations {
   })
   @Column()
   walletPublicKey: string;
+
+  @ApiProperty({
+    example: 'wallet-address',
+    description: 'The wallet adress',
+  })
+  @Column({ nullable: true })
+  walletAdress: string;
 }

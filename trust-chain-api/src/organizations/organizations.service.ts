@@ -11,6 +11,7 @@ import { Organizations } from './entities/organizations.entity';
 import { CreateOrganizationDto } from './dtos/create-organization.dto';
 import { UpdateOrganizationDto } from './dtos/update-organization.dto';
 import { LoginOrganizationDto } from './dtos/login-organization.dto';
+import { WalletsService } from 'src/wallets/wallets.service';
 
 @Injectable()
 export class OrganizationsService {
@@ -18,6 +19,7 @@ export class OrganizationsService {
     @InjectRepository(Organizations)
     private organizationsRepository: Repository<Organizations>,
     private jwtService: JwtService,
+    private readonly walletService: WalletsService,
   ) {}
 
   async create(
@@ -83,5 +85,22 @@ export class OrganizationsService {
     const payload = { sub: organization.id, email: organization.email };
     const accessToken = this.jwtService.sign(payload);
     return { accessToken, organization };
+  }
+
+  async createWallet(organizationId: number): Promise<Organizations> {
+    const organization = await this.organizationsRepository.findOne({
+      where: { id: organizationId },
+    });
+
+    if (!organization) {
+      throw new NotFoundException('Organization not found');
+    }
+
+    const { publicKey, privateKey, address } =
+      this.walletService.createWallet();
+    organization.walletPublicKey = publicKey;
+    organization.walletPrivateKey = privateKey;
+    organization.walletAdress = address;
+    return this.organizationsRepository.save(organization);
   }
 }
