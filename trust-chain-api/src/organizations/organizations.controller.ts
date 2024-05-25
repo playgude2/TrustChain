@@ -8,12 +8,20 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { OrganizationsService } from './organizations.service';
-import { CreateOrganizationDto } from './dtos/create-organization.dto';
 import { Organizations } from './entities/organizations.entity';
+import { CreateOrganizationDto } from './dtos/create-organization.dto';
+import { LoginOrganizationDto } from './dtos/login-organization.dto';
 import { UpdateOrganizationDto } from './dtos/update-organization.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @ApiTags('organizations')
 @Controller('organizations')
@@ -35,6 +43,8 @@ export class OrganizationsController {
     return this.organizationsService.create(createOrganizationDto);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
   @Get()
   @ApiOperation({ summary: 'Retrieve all organizations' })
   @ApiResponse({
@@ -46,6 +56,8 @@ export class OrganizationsController {
     return this.organizationsService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
   @Get(':id')
   @ApiOperation({ summary: 'Retrieve an organization by ID' })
   @ApiResponse({
@@ -58,6 +70,8 @@ export class OrganizationsController {
     return this.organizationsService.findOne(id);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
   @Put(':id')
   @ApiOperation({ summary: 'Update an organization by ID' })
   @ApiResponse({
@@ -73,6 +87,8 @@ export class OrganizationsController {
     return this.organizationsService.update(id, updateOrganizationDto);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
   @Delete(':id')
   @ApiOperation({ summary: 'Delete an organization by ID' })
   @ApiResponse({
@@ -83,5 +99,20 @@ export class OrganizationsController {
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: number): Promise<void> {
     return this.organizationsService.remove(id);
+  }
+
+  @Post('login')
+  @ApiOperation({ summary: 'Login an organization' })
+  @ApiResponse({
+    status: 200,
+    description: 'The organization has been successfully logged in.',
+    type: String,
+  })
+  @ApiResponse({ status: 401, description: 'Invalid email or password.' })
+  @HttpCode(HttpStatus.OK)
+  login(
+    @Body() loginOrganizationDto: LoginOrganizationDto,
+  ): Promise<{ accessToken: string; organization: any }> {
+    return this.organizationsService.login(loginOrganizationDto);
   }
 }

@@ -6,11 +6,21 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('TrustChain API')
-    .setDescription('The TrustChain API description')
+    .setTitle('Organization Management API')
+    .setDescription('API for managing organizations')
     .setVersion('1.0')
-    .addTag('trustchain')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'Authorization',
+        in: 'header',
+      },
+      'access-token', // This is the name of the security scheme
+    )
     .build();
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
