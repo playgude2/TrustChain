@@ -1,5 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { Credentials } from 'src/credentials/entities/credentials.entity';
+import { CredentialRequests } from 'src/credential-requests/entities/credential-requests.entity';
 
 @Entity()
 export class Organizations {
@@ -68,4 +70,10 @@ export class Organizations {
   })
   @Column({ nullable: true })
   walletAdress: string;
+
+  @OneToMany(() => Credentials, (credentials) => credentials.organization)
+  credentials: Credentials[];
+
+  @OneToMany(() => CredentialRequests, (requests) => requests.requester)
+  requests: CredentialRequests[];
 }

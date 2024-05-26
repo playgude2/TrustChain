@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
-contract DocumentRegistry {
+import "@openzeppelin/contracts/access/AccessControl.sol";
+
+contract DocumentRegistry is AccessControl {
+    bytes32 public constant ISSUER_ROLE = keccak256("ISSUER_ROLE");
+
     // Struct to represent a Credential
     struct Credential {
         string documentHash;
@@ -19,11 +23,22 @@ contract DocumentRegistry {
         bool active;
     }
 
+    // Struct to represent a Proof Request
+    struct ProofRequest {
+        address requester;
+        string documentHash;
+        bool responded;
+        bool valid;
+    }
+
     // Mapping from organization address to their list of credential definitions
     mapping(address => CredentialDefinition[]) public credentialDefinitions;
 
     // Mapping from recipient address to their list of credentials
     mapping(address => Credential[]) public credentials;
+
+    // Mapping from recipient address to proof requests
+    mapping(address => ProofRequest[]) public proofRequests;
 
     // Event to emit when a credential is issued
     event CredentialIssued(address indexed issuer, address indexed recipient, string documentHash, uint256 timestamp);
@@ -31,8 +46,21 @@ contract DocumentRegistry {
     // Event to emit when a credential is revoked
     event CredentialRevoked(address indexed recipient, string documentHash);
 
+    // Event to emit when a proof request is made
+    event ProofRequested(address indexed requester, address indexed recipient, string documentHash);
+
+    // Event to emit when a proof response is made
+    event ProofResponded(address indexed recipient, address indexed requester, string documentHash, bool valid);
+
+    // Constructor to set up roles
+    constructor() {
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(ISSUER_ROLE, msg.sender);
+    }
+
     // Function to create a new credential definition
     function createCredentialDefinition(string memory definitionName, uint256 version) public {
+        require(hasRole(ISSUER_ROLE, msg.sender), "Caller is not an issuer");
         CredentialDefinition memory newDefinition = CredentialDefinition({
             definitionName: definitionName,
             version: version,
@@ -49,6 +77,7 @@ contract DocumentRegistry {
         string[] memory keys,
         string[] memory values
     ) public {
+        require(hasRole(ISSUER_ROLE, msg.sender), "Caller is not an issuer");
         require(keys.length == values.length, "Keys and values length mismatch");
 
         // Create a new Credential struct
@@ -69,6 +98,7 @@ contract DocumentRegistry {
 
     // Function to revoke a credential
     function revokeCredential(address recipient, string memory documentHash) public {
+        require(hasRole(ISSUER_ROLE, msg.sender), "Caller is not an issuer");
         Credential[] storage userCredentials = credentials[recipient];
 
         // Iterate through the list to find and revoke the matching credential
@@ -101,6 +131,7 @@ contract DocumentRegistry {
 
     // Function to update the version of a credential definition
     function updateCredentialDefinition(address organization, uint256 definitionIndex, uint256 newVersion) public {
+        require(hasRole(ISSUER_ROLE, msg.sender), "Caller is not an issuer");
         CredentialDefinition storage definition = credentialDefinitions[organization][definitionIndex];
         definition.version = newVersion;
     }
@@ -114,5 +145,29 @@ contract DocumentRegistry {
             }
         }
         revert("Attribute not found");
+    }
+
+    // Function to request proof of a credential
+    function requestProof(address recipient, string memory documentHash) public {
+        ProofRequest memory newRequest = ProofRequest({
+            requester: msg.sender,
+            documentHash: documentHash,
+            responded: false,
+            valid: false
+        });
+
+        proofRequests[recipient].push(newRequest);
+        emit ProofRequested(msg.sender, recipient, documentHash);
+    }
+
+    // Function to respond to a proof request
+    function respondProof(uint256 requestIndex, bool isValid) public {
+        ProofRequest storage request = proofRequests[msg.sender][requestIndex];
+        require(!request.responded, "Proof request already responded");
+
+        request.responded = true;
+        request.valid = isValid;
+
+        emit ProofResponded(msg.sender, request.requester, request.documentHash, isValid);
     }
 }

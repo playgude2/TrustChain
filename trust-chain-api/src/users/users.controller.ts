@@ -16,6 +16,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Users } from './entities/users.entity';
 
 @ApiTags('users')
 @Controller('users')
@@ -23,12 +24,24 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('register')
+  @ApiOperation({ summary: 'Register a new user' })
+  @ApiResponse({
+    status: 201,
+    description: 'User successfully registered',
+    type: Users,
+  })
   async register(@Body() createUserDto: CreateUserDto) {
     const user = await this.usersService.register(createUserDto);
     return user;
   }
 
   @Post('login')
+  @ApiOperation({ summary: 'Login a user' })
+  @ApiResponse({
+    status: 200,
+    description: 'User successfully logged in',
+    type: Users,
+  })
   async login(@Body() loginUserDto: LoginUserDto) {
     const user = await this.usersService.validateUser(loginUserDto);
     if (!user) {

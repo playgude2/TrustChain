@@ -13,19 +13,18 @@ export class UsersService {
     private readonly usersRepository: Repository<Users>,
     private readonly walletService: WalletsService,
   ) {}
-  private users = [];
 
-  async register(createUserDto: CreateUserDto) {
-    const user = { ...createUserDto, id: Date.now().toString() };
-    this.users.push(user);
-    return user;
+  async register(createUserDto: CreateUserDto): Promise<Users> {
+    const user = this.usersRepository.create(createUserDto);
+    return this.usersRepository.save(user);
   }
 
   async validateUser(loginUserDto: LoginUserDto): Promise<any> {
     const { email, password } = loginUserDto;
-    const user = this.users.find(
-      (user) => user.email === email && user.password === password,
-    );
+    const user = await this.usersRepository.findOne({
+      where: { email, password },
+    });
+
     if (user) {
       return user;
     }
@@ -43,7 +42,7 @@ export class UsersService {
       this.walletService.createWallet();
     user.walletPublicKey = publicKey;
     user.walletPrivateKey = privateKey;
-    user.walletAdress = address;
+    user.walletAddress = address;
 
     return this.usersRepository.save(user);
   }
