@@ -2,9 +2,10 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Credentials } from 'src/credentials/entities/credentials.entity';
 import { CredentialRequests } from 'src/credential-requests/entities/credential-requests.entity';
+import { AbstractEntity } from 'src/common/entities/base.entity';
 
 @Entity()
-export class Organizations {
+export class Organizations extends AbstractEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
