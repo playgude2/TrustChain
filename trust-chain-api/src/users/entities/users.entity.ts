@@ -13,11 +13,18 @@ export class Users {
   id: number;
 
   @ApiProperty({
-    example: 'John Doe',
-    description: 'The name of the user',
+    example: 'John',
+    description: 'The first name of the user',
   })
-  @Column()
-  name: string;
+  @Column({ nullable: true })
+  firstName: string;
+
+  @ApiProperty({
+    example: 'Doe',
+    description: 'The last name of the user',
+  })
+  @Column({ nullable: true })
+  lastName: string;
 
   @ApiProperty({
     example: 'strongpassword',

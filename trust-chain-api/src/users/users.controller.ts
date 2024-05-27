@@ -31,7 +31,7 @@ export class UsersController {
     type: Users,
   })
   async register(@Body() createUserDto: CreateUserDto) {
-    const user = await this.usersService.register(createUserDto);
+    const user = await this.usersService.registerUsers(createUserDto);
     return user;
   }
 
@@ -43,11 +43,11 @@ export class UsersController {
     type: Users,
   })
   async login(@Body() loginUserDto: LoginUserDto) {
-    const user = await this.usersService.validateUser(loginUserDto);
-    if (!user) {
+    const result = await this.usersService.validateUser(loginUserDto);
+    if (!result) {
       throw new BadRequestException('Invalid credentials');
     }
-    return user;
+    return result;
   }
 
   @UseGuards(JwtAuthGuard)
