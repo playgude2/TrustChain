@@ -1,10 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { AbstractEntity } from 'src/common/entities/base.entity';
 import { CredentialRequests } from 'src/credential-requests/entities/credential-requests.entity';
 import { Credentials } from 'src/credentials/entities/credentials.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
-export class Users {
+export class Users extends AbstractEntity {
   @ApiProperty({
     example: 1,
     description: 'The unique identifier of the user',
