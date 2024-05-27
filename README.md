@@ -1,4 +1,3 @@
-
 # TrustChain
 
 TrustChain is a blockchain-based solution for issuing, verifying, and managing credentials such as certificates, degrees, and other important documents. It utilizes smart contracts on Ethereum to ensure the authenticity and integrity of the issued credentials.
@@ -40,10 +39,11 @@ trustchain/
 └── CONTRIBUTING.md
 ```
 
-
 ## Getting Started
 
 ### Prerequisites
+
+Here are the updated logos including Docker and NestJS:
 
 - ![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white)
 - ![React.js](https://img.shields.io/badge/React.js-61DAFB?logo=react&logoColor=white)
@@ -51,7 +51,8 @@ trustchain/
 - ![Ganache](https://img.shields.io/badge/Ganache-EA7314?logo=ganache&logoColor=white)
 - ![MetaMask](https://img.shields.io/badge/MetaMask-F6851B?logo=metamask&logoColor=white)
 - ![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white)
-
+- ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
+- ![NestJS](https://img.shields.io/badge/NestJS-E0234E?logo=nestjs&logoColor=white)
 
 ### Installation
 
