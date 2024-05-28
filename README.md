@@ -43,7 +43,6 @@ trustchain/
 
 ### Prerequisites
 
-Here are the updated logos including Docker and NestJS:
 
 - ![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white)
 - ![React.js](https://img.shields.io/badge/React.js-61DAFB?logo=react&logoColor=white)
