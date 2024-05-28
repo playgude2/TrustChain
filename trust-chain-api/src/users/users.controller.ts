@@ -5,6 +5,7 @@ import {
   BadRequestException,
   Param,
   UseGuards,
+  NotFoundException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
@@ -31,8 +32,12 @@ export class UsersController {
     type: Users,
   })
   async register(@Body() createUserDto: CreateUserDto) {
-    const user = await this.usersService.registerUsers(createUserDto);
-    return user;
+    try {
+      const user = await this.usersService.registerUsers(createUserDto);
+      return user;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   @Post('login')
@@ -43,11 +48,12 @@ export class UsersController {
     type: Users,
   })
   async login(@Body() loginUserDto: LoginUserDto) {
-    const result = await this.usersService.validateUser(loginUserDto);
-    if (!result) {
+    try {
+      const result = await this.usersService.validateUser(loginUserDto);
+      return result;
+    } catch (error) {
       throw new BadRequestException('Invalid credentials');
     }
-    return result;
   }
 
   @UseGuards(JwtAuthGuard)
@@ -59,6 +65,10 @@ export class UsersController {
     description: 'Wallet successfully created for user.',
   })
   async createWallet(@Param('id') userId: number) {
-    return this.usersService.createWallet(userId);
+    try {
+      return await this.usersService.createWallet(userId);
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 }
