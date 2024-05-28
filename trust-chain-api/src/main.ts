@@ -6,8 +6,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Organization Management API')
-    .setDescription('API for managing organizations')
+    .setTitle('TRUST CHAIN API')
+    .setDescription('API for managing verified credentials')
     .setVersion('1.0')
     .addBearerAuth(
       {

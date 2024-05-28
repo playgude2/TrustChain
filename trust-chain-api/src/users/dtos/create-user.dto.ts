@@ -12,7 +12,11 @@ export class CreateUserDto {
   @MinLength(6)
   readonly password: string;
 
-  @ApiProperty({ example: 'John Doe' })
+  @ApiProperty({ example: 'John' })
   @IsString()
-  readonly name: string;
+  readonly firstName: string;
+
+  @ApiProperty({ example: 'Doe' })
+  @IsString()
+  readonly lastName: string;
 }

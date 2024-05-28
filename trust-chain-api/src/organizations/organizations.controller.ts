@@ -9,6 +9,9 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
+  NotFoundException,
+  BadRequestException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -37,10 +40,14 @@ export class OrganizationsController {
   })
   @ApiResponse({ status: 400, description: 'Invalid input data.' })
   @HttpCode(HttpStatus.CREATED)
-  create(
+  async create(
     @Body() createOrganizationDto: CreateOrganizationDto,
   ): Promise<Organizations> {
-    return this.organizationsService.create(createOrganizationDto);
+    try {
+      return await this.organizationsService.create(createOrganizationDto);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   @UseGuards(JwtAuthGuard)
@@ -52,7 +59,7 @@ export class OrganizationsController {
     description: 'List of all organizations',
     type: [Organizations],
   })
-  findAll(): Promise<Organizations[]> {
+  async findAll(): Promise<Organizations[]> {
     return this.organizationsService.findAll();
   }
 
@@ -66,8 +73,12 @@ export class OrganizationsController {
     type: Organizations,
   })
   @ApiResponse({ status: 404, description: 'Organization not found' })
-  findOne(@Param('id') id: number): Promise<Organizations> {
-    return this.organizationsService.findOne(id);
+  async findOne(@Param('id') id: number): Promise<Organizations> {
+    try {
+      return await this.organizationsService.findOne(id);
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 
   @UseGuards(JwtAuthGuard)
@@ -80,11 +91,15 @@ export class OrganizationsController {
     type: Organizations,
   })
   @ApiResponse({ status: 404, description: 'Organization not found' })
-  update(
+  async update(
     @Param('id') id: number,
     @Body() updateOrganizationDto: UpdateOrganizationDto,
   ): Promise<Organizations> {
-    return this.organizationsService.update(id, updateOrganizationDto);
+    try {
+      return await this.organizationsService.update(id, updateOrganizationDto);
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 
   @UseGuards(JwtAuthGuard)
@@ -97,8 +112,12 @@ export class OrganizationsController {
   })
   @ApiResponse({ status: 404, description: 'Organization not found' })
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: number): Promise<void> {
-    return this.organizationsService.remove(id);
+  async remove(@Param('id') id: number): Promise<void> {
+    try {
+      return await this.organizationsService.remove(id);
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 
   @Post('login')
@@ -110,10 +129,14 @@ export class OrganizationsController {
   })
   @ApiResponse({ status: 401, description: 'Invalid email or password.' })
   @HttpCode(HttpStatus.OK)
-  login(
+  async login(
     @Body() loginOrganizationDto: LoginOrganizationDto,
   ): Promise<{ accessToken: string; organization: any }> {
-    return this.organizationsService.login(loginOrganizationDto);
+    try {
+      return await this.organizationsService.login(loginOrganizationDto);
+    } catch (error) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
   }
 
   @UseGuards(JwtAuthGuard)
@@ -125,6 +148,10 @@ export class OrganizationsController {
     description: 'Wallet successfully created for organization.',
   })
   async createWallet(@Param('id') organizationId: number) {
-    return this.organizationsService.createWallet(organizationId);
+    try {
+      return await this.organizationsService.createWallet(organizationId);
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 }

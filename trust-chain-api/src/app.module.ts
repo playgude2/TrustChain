@@ -5,6 +5,12 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { OrganizationsModule } from './organizations/organizations.module';
 import { WalletsModule } from './wallets/wallets.module';
+import { BlockchainModule } from './blockchain/blockchain.module';
+import { CredentialsModule } from './credentials/credentials.module';
+// import { CredentialRequestsModule } from './credential-requests/credential-requests.module';
+import { SchemaModule } from './schema/schema.module';
+import { ConnectionModule } from './connection/connection.module';
+import { ProofRequestsModule } from './proof-request/proof-requests.module';
 
 @Module({
   imports: [
@@ -25,6 +31,12 @@ import { WalletsModule } from './wallets/wallets.module';
     AuthModule,
     OrganizationsModule,
     WalletsModule,
+    BlockchainModule,
+    CredentialsModule,
+    // CredentialRequestsModule,
+    SchemaModule,
+    ConnectionModule,
+    ProofRequestsModule,
   ],
 })
 export class AppModule {}
