@@ -1,0 +1,132 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+}
+
+.slider-container {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  padding: 20px;
+}
+
+.form-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  padding: 40px 80px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-register {
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.header-text {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.welcome-text,
+.description {
+  font-size: 25px;
+  color: #666;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.welcome-text {
+  margin-bottom: 5px; /* Adjust margin to bring text closer */
+}
+
+.title {
+  font-size: 50px;
+  color: blue;
+  margin: 5px 0; /* Adjust margin to bring text closer */
+}
+
+.description {
+  margin-bottom: 40px; /* Add space after description */
+}
+
+.login-section,
+.register-section {
+  margin: 20px 0;
+}
+
+.or-text,
+.register-text {
+  font-size: 18px;
+  color: #666;
+  text-align: center; /* Center the text */
+  margin-top: 20px; /* Adjust margin to bring text closer */
+}
+
+.login-text {
+  font-size: 18px;
+  color: #666;
+  text-align: center; /* Center the text */
+  margin-top: 2px; /* Add space after description */
+}
+
+.login-buttons,
+.register-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+button {
+  padding: 15px 25px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  white-space: nowrap;
+  min-width: 220px;
+}
+
+.login-org-button {
+  background-color: blue;
+  color: white;
+  border-color: blue;
+}
+
+.login-user-button,
+.register-org-button,
+.register-user-button {
+  color: blue;
+  background-color: transparent;
+  border-color: blue;
+}
+
+.login-user-button:hover,
+.register-org-button:hover,
+.register-user-button:hover {
+  background-color: blue;
+  color: white;
+}
+
+.login-org-button:hover {
+  background-color: #0056b3;
+}
+
+.register-buttons button {
+  margin-top: 10px;
+}
