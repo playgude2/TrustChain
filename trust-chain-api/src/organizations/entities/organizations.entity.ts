@@ -1,8 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Credentials } from 'src/credentials/entities/credentials.entity';
-import { CredentialRequests } from 'src/credential-requests/entities/credential-requests.entity';
+import { Connections } from 'src/connection/entities/connection.entity';
 import { AbstractEntity } from 'src/common/entities/base.entity';
+import { ProofRequest } from 'src/proof-request/entities/proof-request.entity';
 
 @Entity()
 export class Organizations extends AbstractEntity {
@@ -67,14 +68,24 @@ export class Organizations extends AbstractEntity {
 
   @ApiProperty({
     example: 'wallet-address',
-    description: 'The wallet adress',
+    description: 'The wallet address',
   })
   @Column({ nullable: true })
-  walletAdress: string;
+  walletAddress: string;
+
+  @ApiProperty({
+    example: 'did:example:123456789abcdefghi',
+    description: 'The Decentralized Identifier for the organization',
+  })
+  @Column({ nullable: true })
+  did: string;
 
   @OneToMany(() => Credentials, (credentials) => credentials.organization)
   credentials: Credentials[];
 
-  @OneToMany(() => CredentialRequests, (requests) => requests.requester)
-  requests: CredentialRequests[];
+  @OneToMany(() => ProofRequest, (proofRequest) => proofRequest.requester)
+  proofRequests: ProofRequest[];
+
+  @OneToMany(() => Connections, (connection) => connection.organization)
+  connections: Connections[];
 }

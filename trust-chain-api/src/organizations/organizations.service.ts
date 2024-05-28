@@ -29,6 +29,7 @@ export class OrganizationsService {
       createOrganizationDto,
     );
     organization.password = await bcrypt.hash(organization.password, 10);
+    organization.did = `did:example:${organization.name}-${Date.now()}`; // Generate a simple DID
     return this.organizationsRepository.save(organization);
   }
 
@@ -100,7 +101,7 @@ export class OrganizationsService {
       this.walletService.createWallet();
     organization.walletPublicKey = publicKey;
     organization.walletPrivateKey = privateKey;
-    organization.walletAdress = address;
+    organization.walletAddress = address;
     return this.organizationsRepository.save(organization);
   }
 }

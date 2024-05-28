@@ -65,6 +65,8 @@ export class CredentialsService {
       documentHash,
       keys,
       values,
+      organization.did, // issuerDID
+      user.did, // recipientDID
     );
 
     // Save credential in the database

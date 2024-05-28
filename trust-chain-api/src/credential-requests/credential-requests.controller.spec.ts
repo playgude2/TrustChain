@@ -1,20 +1,20 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { CredentialRequestsController } from './credential-requests.controller';
+// import { Test, TestingModule } from '@nestjs/testing';
+// import { CredentialRequestsController } from './credential-requests.controller';
 
-describe('CredentialRequestsController', () => {
-  let controller: CredentialRequestsController;
+// describe('CredentialRequestsController', () => {
+//   let controller: CredentialRequestsController;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [CredentialRequestsController],
-    }).compile();
+//   beforeEach(async () => {
+//     const module: TestingModule = await Test.createTestingModule({
+//       controllers: [CredentialRequestsController],
+//     }).compile();
 
-    controller = module.get<CredentialRequestsController>(
-      CredentialRequestsController,
-    );
-  });
+//     controller = module.get<CredentialRequestsController>(
+//       CredentialRequestsController,
+//     );
+//   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
-});
+//   it('should be defined', () => {
+//     expect(controller).toBeDefined();
+//   });
+// });

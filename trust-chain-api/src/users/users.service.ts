@@ -35,6 +35,7 @@ export class UsersService {
       // Create and save the new user
       const user = this.usersRepository.create(createUserDto);
       user.password = await bcrypt.hash(user.password, 10);
+      user.did = `did:example:${user.email}-${Date.now()}`; // Generate a simple DID
       return await this.usersRepository.save(user);
     } catch (error) {
       // Handle specific error for email already exists

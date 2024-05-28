@@ -23,13 +23,15 @@ export class BlockchainService {
 
     const contractAbi = [
       'function createCredentialDefinition(string definitionName, uint256 version) public',
-      'function issueCredential(address recipient, string documentHash, string[] memory keys, string[] memory values) public',
+      'function issueCredential(address recipient, string documentHash, string[] memory keys, string[] memory values, string memory issuerDID, string memory recipientDID) public',
       'function revokeCredential(address recipient, string documentHash) public',
       'function verifyCredential(address recipient, string documentHash) public view returns (bool)',
       'function updateCredentialDefinition(address organization, uint256 definitionIndex, uint256 newVersion) public',
       'function getCredentialAttribute(address recipient, uint256 credentialIndex, string memory key) public view returns (string memory)',
       'function requestProof(address recipient, string documentHash) public',
-      'function respondProof(uint256 requestIndex, bool isValid) public',
+      'function respondProof(uint256 requestIndex, bool isValid, string proof) public',
+      'function establishConnection(address user) public',
+      'function createSchema(string memory schemaHash) public',
     ];
 
     this.contract = new ethers.Contract(
@@ -55,12 +57,16 @@ export class BlockchainService {
     documentHash: string,
     keys: string[],
     values: string[],
+    issuerDID: string,
+    recipientDID: string,
   ): Promise<string> {
     const tx = await this.contract.issueCredential(
       recipient,
       documentHash,
       keys,
       values,
+      issuerDID,
+      recipientDID,
     );
     const receipt = await tx.wait();
     return receipt.transactionHash;
@@ -111,8 +117,22 @@ export class BlockchainService {
     await tx.wait();
   }
 
-  async respondProof(requestIndex: number, isValid: boolean): Promise<void> {
-    const tx = await this.contract.respondProof(requestIndex, isValid);
+  async respondProof(
+    requestIndex: number,
+    isValid: boolean,
+    proof: string,
+  ): Promise<void> {
+    const tx = await this.contract.respondProof(requestIndex, isValid, proof);
+    await tx.wait();
+  }
+
+  async establishConnection(user: string): Promise<void> {
+    const tx = await this.contract.establishConnection(user);
+    await tx.wait();
+  }
+
+  async createSchema(schemaHash: string): Promise<void> {
+    const tx = await this.contract.createSchema(schemaHash);
     await tx.wait();
   }
 }
