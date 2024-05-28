@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './Components/Login';
+import Landingpage from './Components/Landing_page';
 
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
     <>
     <Router>
       <Routes>
-        <Route path="/" element={<Login/>} />
+        <Route path="/" element={<Landingpage/>} />
       </Routes>
     </Router>
     </>
