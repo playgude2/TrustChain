@@ -50,17 +50,17 @@ html {
 }
 
 .welcome-text {
-  margin-bottom: 5px; /* Adjust margin to bring text closer */
+  margin-bottom: 5px; 
 }
 
 .title {
   font-size: 50px;
   color: blue;
-  margin: 5px 0; /* Adjust margin to bring text closer */
+  margin: 5px 0; 
 }
 
 .description {
-  margin-bottom: 40px; /* Add space after description */
+  margin-bottom: 40px; 
 }
 
 .login-section,
@@ -72,15 +72,15 @@ html {
 .register-text {
   font-size: 18px;
   color: #666;
-  text-align: center; /* Center the text */
-  margin-top: 20px; /* Adjust margin to bring text closer */
+  text-align: center; 
+  margin-top: 20px; 
 }
 
 .login-text {
   font-size: 18px;
   color: #666;
-  text-align: center; /* Center the text */
-  margin-top: 2px; /* Add space after description */
+  text-align: center;
+  margin-top: 2px; 
 }
 
 .login-buttons,
@@ -124,7 +124,8 @@ button {
 }
 
 .login-org-button:hover {
-  background-color: #0056b3;
+  background-color: white;
+  color: blue;
 }
 
 .register-buttons button {

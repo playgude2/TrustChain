@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Landingpage from './Components/Landing_page';
 import Organisation_register from './Components/Organisation_register';
 import Organisation_login from './Components/Organisation_login';
+import LoginPage from './Components/Login_user';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Landingpage/>} />
         <Route path="/organisation/register" element={<Organisation_register/>} />
         <Route path="/organisation/login" element={<Organisation_login/>} />
+        <Route path="/user/login" element={<LoginPage/>} />
       </Routes>
     </Router>
     </>
