@@ -1,0 +1,132 @@
+
+.login-form {
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.login-header-text {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.login-welcome-text,
+.login-description {
+  font-size: 25px;
+  color: #666;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.login-welcome-text {
+  margin-bottom: 5px;
+}
+
+.login-title {
+  font-size: 50px;
+  color: blue;
+  margin: 5px 0;
+}
+
+.login-description {
+  margin-bottom: 50px;
+}
+
+.login-form-section {
+  margin: 20px 0;
+}
+
+.login-form-label {
+  font-size: 18px;
+  color: blue;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.login-form-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.login-form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.login-remember-me {
+  display: flex;
+  align-items: center;
+}
+
+.login-remember-me label {
+  margin-left: 5px;
+}
+
+.login-forgot-password {
+  font-size: 15px;
+  color: blue;
+  text-decoration: underline;
+}
+
+.login-login-buttons {
+  display: flex;
+  flex-direction: column; 
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.login-button {
+  padding: 15px 25px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  white-space: nowrap;
+  width: 100%; 
+}
+
+.login-login-user-button {
+  background-color: blue;
+  color: white;
+  border-color: blue;
+}
+
+.login-login-org-button {
+  color: blue;
+  background-color: transparent;
+  border-color: blue;
+}
+
+.login-login-user-button:hover {
+  background-color: white;
+  color: blue
+}
+
+.login-login-org-button:hover {
+  background-color: blue;
+  color: white;
+}
+
+.login-register-section {
+  display: flex;
+  justify-content: center; 
+  margin-top: 20px;
+}
+
+.login-register-button {
+  background-color: transparent;
+  color: blue;
+  border: 2px solid blue;
+  width: 100%; 
+}
+
+.login-register-button:hover {
+  background-color: blue;
+  color: white;
+}

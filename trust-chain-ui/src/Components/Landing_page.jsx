@@ -1,7 +1,22 @@
 import React from 'react';
 import '../styles/Landing_page.css';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const LandingPage = () => {
+  const navigate = useNavigate();
+
+  const handleOrgLogin = () => {
+    navigate('/organisation/login');
+  };
+
+  const handleUserLogin = () => {
+    navigate('/user/login');
+  };
+
+  const handleOrgRegister = () => {
+    navigate('/organisation/register');
+  };
+
   return (
     <div className="app">
       <div className="slider-container">
@@ -19,15 +34,15 @@ const Login = () => {
           <div className="login-section">
             <p className="login-text">Login to your Account</p>
             <div className="login-buttons">
-              <button className="login-org-button">Login as Organisation</button>
-              <button className="login-user-button">Login as User</button>
+              <button className="login-org-button" onClick={handleOrgLogin}>Login as Organisation</button>
+              <button className="login-user-button" onClick={handleUserLogin}>Login as User</button>
             </div>
           </div>
           <p className="or-text">OR</p>
           <div className="register-section">
             <p className="register-text">Do not have an Account</p>
             <div className="register-buttons">
-              <button className="register-org-button">Register as Organisation</button>
+              <button className="register-org-button" onClick={handleOrgRegister}>Register as Organisation</button>
               <button className="register-user-button">Register as User</button>
             </div>
           </div>
@@ -37,4 +52,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LandingPage;
